@@ -75,7 +75,6 @@ header p {
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  max-width: 280px;
   font-size: 0.9rem;
   line-height: 1.5;
 }
