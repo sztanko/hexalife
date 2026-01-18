@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { WealthRules, GridState, SimulationState, CellData } from '../types';
+import { WealthRules, GridState, SimulationState } from '../types';
 import {
   createEmptyGrid,
   computeNextGeneration,
