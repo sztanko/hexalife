@@ -120,7 +120,7 @@ export function Controls({
       <div className="control-group">
         <label>Actions</label>
         <div className="button-row">
-          <button onClick={onRandomize} className="btn btn-secondary">
+          <button onClick={() => onRandomize()} className="btn btn-secondary">
             🎲 Random
           </button>
           <button onClick={onResetWealth} className="btn btn-secondary">
