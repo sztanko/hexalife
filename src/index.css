@@ -68,15 +68,16 @@ header p {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  max-width: 220px;
 }
 
 .explanation {
   background: #1e293b;
-  padding: 20px;
+  padding: 15px;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  font-size: 0.9rem;
-  line-height: 1.5;
+  font-size: 0.85rem;
+  line-height: 1.4;
 }
 
 .explanation h3 {
@@ -174,9 +175,8 @@ main {
   flex-direction: column;
   gap: 20px;
   background: #1e293b;
-  padding: 20px;
+  padding: 15px;
   border-radius: 12px;
-  min-width: 250px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
