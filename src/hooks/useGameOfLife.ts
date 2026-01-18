@@ -53,7 +53,11 @@ function saveToStorage(state: StoredState): void {
   }
 }
 
-export function useGameOfLife(initialWidth: number = 60, initialHeight: number = 60) {
+export function useGameOfLife(
+  initialWidth: number = 60,
+  initialHeight: number = 60,
+  urlRules: WealthRules | null = null
+) {
   const [gridState, setGridState] = useState<GridState>(() => {
     const stored = loadFromStorage();
     if (stored) {
@@ -67,6 +71,10 @@ export function useGameOfLife(initialWidth: number = 60, initialHeight: number =
   });
 
   const [wealthRules, setWealthRules] = useState<WealthRules>(() => {
+    // URL rules take priority over localStorage
+    if (urlRules) {
+      return urlRules;
+    }
     const stored = loadFromStorage();
     return stored?.wealthRules ?? [...defaultWealthRules];
   });

@@ -1,10 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { HexGrid } from './components/HexGrid';
 import { Controls } from './components/Controls';
 import { Metrics } from './components/Metrics';
 import { WealthRulesPopup } from './components/WealthRulesPopup';
 import { useGameOfLife } from './hooks/useGameOfLife';
-import { ColoringMode } from './types';
+import { ColoringMode, WealthRules } from './types';
+
+// Parse rules from URL query string
+function getRulesFromURL(): WealthRules | null {
+  const params = new URLSearchParams(window.location.search);
+  const rulesParam = params.get('rules');
+  if (rulesParam) {
+    try {
+      const rules = rulesParam.split(',').map(Number);
+      if (rules.length === 7 && rules.every(n => !isNaN(n) && n >= -10 && n <= 10)) {
+        return rules;
+      }
+    } catch {
+      // Invalid format, ignore
+    }
+  }
+  return null;
+}
+
+// Update URL with current rules
+function updateURL(rules: WealthRules) {
+  const params = new URLSearchParams(window.location.search);
+  params.set('rules', rules.join(','));
+  const newURL = `${window.location.pathname}?${params.toString()}`;
+  window.history.replaceState({}, '', newURL);
+}
 
 function App() {
   const {
@@ -24,10 +49,20 @@ function App() {
     resetWealth,
     setWealthRules,
     setSpeed,
-  } = useGameOfLife(60, 60);
+  } = useGameOfLife(60, 60, getRulesFromURL());
 
   const [showRules, setShowRules] = useState(false);
   const [coloringMode, setColoringMode] = useState<ColoringMode>('wealth');
+
+  // Update URL when rules change
+  useEffect(() => {
+    updateURL(wealthRules);
+  }, [wealthRules]);
+
+  // Handle saving rules and updating URL
+  const handleSaveRules = useCallback((newRules: WealthRules) => {
+    setWealthRules(newRules);
+  }, [setWealthRules]);
 
   return (
     <div className="app">
@@ -105,7 +140,7 @@ function App() {
       {showRules && (
         <WealthRulesPopup
           wealthRules={wealthRules}
-          onSave={setWealthRules}
+          onSave={handleSaveRules}
           onClose={() => setShowRules(false)}
         />
       )}
